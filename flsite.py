@@ -10,6 +10,8 @@ menu = [{"name": "Лаба 1", "url": "p_knn"},
         {"name": "Лаба 3", "url": "p_lab3"}]
 
 loaded_model_knn = pickle.load(open('model/Iris_pickle_file_knn', 'rb'))
+loaded_model_linel = pickle.load(open('model/Iris_pickle_file_jilie', 'rb'))
+
 
 @app.route("/")
 def index():
@@ -29,9 +31,15 @@ def f_lab1():
         return render_template('lab1.html', title="Метод k -ближайших соседей (KNN)", menu=menu,
                                class_model="Это " + pred[0])
 
-@app.route("/p_lab2")
+@app.route("/p_lab2", methods=['POST', 'GET'])
 def f_lab2():
-    return render_template('lab2.html', title="Логистическая регрессия", menu=menu)
+    if request.method == 'GET':
+        return render_template('lab2.html', title="линейная регрессия", menu=menu, class_model='')
+    if request.method == 'POST':
+        X_new = np.array([[float(request.form['list1'])]])
+        pred = loaded_model_linel.predict(X_new)
+        return render_template('lab2.html', title="линейная регрессия", menu=menu,
+                               class_model=pred[0][0])
 
 
 @app.route("/p_lab3")

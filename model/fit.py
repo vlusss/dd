@@ -1,13 +1,21 @@
 import pickle
 import pandas as pd
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LinearRegression
 
-iris_df = pd.read_csv("IRIS (2).csv")
-X = iris_df.drop(["species"], axis=1)
-Y = iris_df["species"]
-X_train1, X_test1, Y_train1, Y_test1 = train_test_split(X, Y, test_size=0.3, random_state=3)
-model = KNeighborsClassifier(n_neighbors=3)
-model.fit(X_train1, Y_train1)
-with open('Iris_pickle_file_knn', 'wb') as pkl:
+dataset = pd.read_excel('dinrent (1).xls')
+np_dataset = np.array(dataset)
+np_y = np_dataset[:,2]
+np_x = np_dataset[:,1]
+np_x = np_x.reshape(-1, 1)
+np_y = np_y.reshape(-1, 1)
+model = LinearRegression()
+model.fit(np_x, np_y)
+
+print(float(model.predict([[3]])))
+
+
+with open('Iris_pickle_file_jilie', 'wb') as pkl:
     pickle.dump(model, pkl)
