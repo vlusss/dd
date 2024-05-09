@@ -7,11 +7,14 @@ app = Flask(__name__)
 
 menu = [{"name": "Лаба 1", "url": "p_knn"},
         {"name": "Лаба 2", "url": "p_lab2"},
-        {"name": "Лаба 3", "url": "p_lab3"}]
+        {"name": "Лаба 3", "url": "p_lab3"},
+        {"name": "Лаба 4", "url": "p_lab4"}
+        ]
 
 loaded_model_knn = pickle.load(open('model/Iris_pickle_file_knn', 'rb'))
 loaded_model_linel = pickle.load(open('model/Iris_pickle_file_jilie', 'rb'))
-
+loaded_model_logic = pickle.load(open('model/Iris_pickle_file_logic', 'rb'))
+loaded_model_tree = pickle.load(open('model/Iris_pickle_file_tree', 'rb'))
 
 @app.route("/")
 def index():
@@ -34,17 +37,52 @@ def f_lab1():
 @app.route("/p_lab2", methods=['POST', 'GET'])
 def f_lab2():
     if request.method == 'GET':
-        return render_template('lab2.html', title="линейная регрессия", menu=menu, class_model='')
+        return render_template('lab2.html', title="Линейная регрессия", menu=menu, class_model='')
     if request.method == 'POST':
         X_new = np.array([[float(request.form['list1'])]])
         pred = loaded_model_linel.predict(X_new)
-        return render_template('lab2.html', title="линейная регрессия", menu=menu,
+        return render_template('lab2.html', title="Линейная регрессия", menu=menu,
                                class_model=pred[0][0])
 
 
-@app.route("/p_lab3")
+@app.route("/p_lab3", methods=['POST', 'GET'])
 def f_lab3():
-    return render_template('lab3.html', title="Логистическая регрессия", menu=menu)
+    dct = {
+        0: "blue",
+        1: "green",
+        2: "white"
+    }
+
+    if request.method == 'GET':
+        return render_template('lab3.html', title="Логистическая регрессия", menu=menu, class_model='')
+    if request.method == 'POST':
+        X_new = np.array([[float(request.form['list1']),
+                           float(request.form['list2']),
+                           float(request.form['list3']),
+                           float(request.form['list4'])]])
+        pred = loaded_model_logic.predict(X_new)
+        return render_template('lab3.html', title="Логистическая регрессия", menu=menu,
+                               class_model="Любимый цвет: " + dct[pred[0]])
+
+
+@app.route("/p_lab4", methods=['POST', 'GET'])
+def f_lab4():
+    dct = {
+        0: "blue",
+        1: "green",
+        2: "white"
+    }
+
+    if request.method == 'GET':
+        return render_template('lab4.html', title="Дерево решений", menu=menu, class_model='')
+    if request.method == 'POST':
+        X_new = np.array([[float(request.form['list1']),
+                           float(request.form['list2']),
+                           float(request.form['list3']),
+                           float(request.form['list4'])]])
+        pred = loaded_model_tree.predict(X_new)
+        return render_template('lab4.html', title="Дерево решений", menu=menu,
+                               class_model="Любимый цвет: " + pred[0])
 
 
 if __name__ == "__main__":
