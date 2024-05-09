@@ -59,3 +59,14 @@ form {
   background-color: #f6f6f6; /*Цвет текстового поля*/
   border-radius: 10px 10px 10px 10px; /*Закругляем уголки*/
 }
+
+label {
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 1px 1px grey;
+    color: orange;
+    font-size: 25px;
+    font-family: 'Arial', sans-serif;
+    padding: 25px;
+    border-radius: 5px;
+}
