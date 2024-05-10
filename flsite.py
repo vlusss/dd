@@ -16,9 +16,11 @@ loaded_model_linel = pickle.load(open('model/Iris_pickle_file_jilie', 'rb'))
 loaded_model_logic = pickle.load(open('model/Iris_pickle_file_logic', 'rb'))
 loaded_model_tree = pickle.load(open('model/Iris_pickle_file_tree', 'rb'))
 
+
 @app.route("/")
 def index():
-    return render_template('index.html', title="Лабораторные работы, выполненные ФИО", menu=menu)
+    return render_template('index.html', title="Лабораторные работы, выполненные Петрачков Александр ПрИ-201",
+                           menu=menu)
 
 
 @app.route("/p_knn", methods=['POST', 'GET'])
@@ -33,6 +35,7 @@ def f_lab1():
         pred = loaded_model_knn.predict(X_new)
         return render_template('lab1.html', title="Метод k -ближайших соседей (KNN)", menu=menu,
                                class_model="Это " + pred[0])
+
 
 @app.route("/p_lab2", methods=['POST', 'GET'])
 def f_lab2():
@@ -49,8 +52,8 @@ def f_lab2():
 def f_lab3():
     dct = {
         0: "blue",
-        1: "green",
-        2: "white"
+        2: "green",
+        1: "white"
     }
 
     if request.method == 'GET':
@@ -67,12 +70,6 @@ def f_lab3():
 
 @app.route("/p_lab4", methods=['POST', 'GET'])
 def f_lab4():
-    dct = {
-        0: "blue",
-        1: "green",
-        2: "white"
-    }
-
     if request.method == 'GET':
         return render_template('lab4.html', title="Дерево решений", menu=menu, class_model='')
     if request.method == 'POST':
