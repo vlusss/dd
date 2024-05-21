@@ -1,7 +1,7 @@
 import pickle
 
 import numpy as np
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 
 app = Flask(__name__)
 
@@ -80,6 +80,29 @@ def f_lab4():
         pred = loaded_model_tree.predict(X_new)
         return render_template('lab4.html', title="Дерево решений", menu=menu,
                                class_model="Любимый цвет: " + pred[0])
+
+
+@app.route('/api', methods=['get'])
+def get_sort():
+    X_new = np.array([[float(request.args.get('list1')),
+                       float(request.args.get('list2')),
+                       float(request.args.get('list3')),
+                       float(request.args.get('list4'))]])
+    pred = loaded_model_tree.predict(X_new)
+
+    return jsonify(sort=pred[0])
+
+
+@app.route('/api_v2', methods=['get'])
+def get_sort_v2():
+    request_data = request.get_json()
+    X_new = np.array([[float(request_data['list1']),
+                       float(request_data['list2']),
+                       float(request_data['list3']),
+                       float(request_data['list4'])]])
+    pred = loaded_model_tree.predict(X_new)
+
+    return jsonify(sort=pred[0])
 
 
 if __name__ == "__main__":
