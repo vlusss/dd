@@ -55,7 +55,9 @@ def f_lab3():
         2: "green",
         1: "white"
     }
+    from matrix import get_matrix_beloved_color
 
+    get_matrix_beloved_color(loaded_model_logic, 'logic')
     if request.method == 'GET':
         return render_template('lab3.html', title="Логистическая регрессия", menu=menu, class_model='')
     if request.method == 'POST':
@@ -70,6 +72,10 @@ def f_lab3():
 
 @app.route("/p_lab4", methods=['POST', 'GET'])
 def f_lab4():
+    from matrix import get_matrix_beloved_color
+
+    get_matrix_beloved_color(loaded_model_tree, 'tree')
+
     if request.method == 'GET':
         return render_template('lab4.html', title="Дерево решений", menu=menu, class_model='')
     if request.method == 'POST':
@@ -90,7 +96,7 @@ def get_sort():
                        float(request.args.get('list4'))]])
     pred = loaded_model_tree.predict(X_new)
 
-    return jsonify(sort=pred[0])
+    return jsonify(color=pred[0])
 
 
 @app.route('/api_v2', methods=['get'])
@@ -102,7 +108,7 @@ def get_sort_v2():
                        float(request_data['list4'])]])
     pred = loaded_model_tree.predict(X_new)
 
-    return jsonify(sort=pred[0])
+    return jsonify(color=pred[0])
 
 
 if __name__ == "__main__":
