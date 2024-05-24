@@ -2,6 +2,7 @@ import pickle
 
 import numpy as np
 from flask import Flask, render_template, url_for, request, jsonify
+from matrix import get_matrix_iris, get_matrix_beloved_color
 
 app = Flask(__name__)
 
@@ -15,6 +16,11 @@ loaded_model_knn = pickle.load(open('model/Iris_pickle_file_knn', 'rb'))
 loaded_model_linel = pickle.load(open('model/Iris_pickle_file_jilie', 'rb'))
 loaded_model_logic = pickle.load(open('model/Iris_pickle_file_logic', 'rb'))
 loaded_model_tree = pickle.load(open('model/Iris_pickle_file_tree', 'rb'))
+
+
+get_matrix_beloved_color(loaded_model_logic, 'logic')
+get_matrix_iris(loaded_model_knn, 'knn')
+get_matrix_beloved_color(loaded_model_tree, 'tree')
 
 
 @app.route("/")
@@ -55,9 +61,6 @@ def f_lab3():
         2: "green",
         1: "white"
     }
-    from matrix import get_matrix_beloved_color
-
-    get_matrix_beloved_color(loaded_model_logic, 'logic')
     if request.method == 'GET':
         return render_template('lab3.html', title="Логистическая регрессия", menu=menu, class_model='')
     if request.method == 'POST':
@@ -72,9 +75,6 @@ def f_lab3():
 
 @app.route("/p_lab4", methods=['POST', 'GET'])
 def f_lab4():
-    from matrix import get_matrix_beloved_color
-
-    get_matrix_beloved_color(loaded_model_tree, 'tree')
 
     if request.method == 'GET':
         return render_template('lab4.html', title="Дерево решений", menu=menu, class_model='')
